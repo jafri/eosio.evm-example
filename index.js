@@ -6,7 +6,7 @@ const SYSTEM_SYMBOL = 'EOS'
 
 const api = new EosEvmApi({
   // Ensure the API has console printing enabled
-  endpoint: 'https://jungle.eosdac.io',
+  endpoint: 'https://jungle2.cryptolions.io',
 
   // Must match the chain ID the contract is compiled with (1 by default)
   chainId: 1,
@@ -79,7 +79,7 @@ async function main () {
 
   // Query ERC20 FIRE balance using "view" function calls
   console.log(`${sender.address} Balance:`, +(await api.eth.balanceOf(sender.address)).toString(10), 'FIRE') // 999,000
-  console.log(`${receiver} Balance:`,       +(await api.eth.balanceOf(receiver)).toString(10)), 'FIRE'       //   1,000
+  console.log(`${receiver} Balance:`,       +(await api.eth.balanceOf(receiver)).toString(10), 'FIRE')       //   1,000
 
   // Set allowance, and modify it
   await api.eth.approve(receiver, 100, { sender: sender.address })
@@ -97,8 +97,10 @@ async function main () {
   // Withdraw tokens
   await api.eos.withdraw({ account: evmNormalAccount, quantity: `0.0001 ${SYSTEM_SYMBOL}` })
 
+
   // Other available functions, check docs
-  // await getStorageAt(address, key)
+  console.log(await getStorageAt(eth.createdAddress, 3))
+
   // await createEthTx({ sender, data, gasLimit, value, to, rawSign = false })
   // async getNonce(address)
   // async getEthAccount(address)
