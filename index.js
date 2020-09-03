@@ -2,11 +2,11 @@ const { EosEvmApi } = require('eos-evm-js')
 
 const evmContractAccount = 'evmcontract1'
 const evmNormalAccount = 'evmaccount11'
-const SYSTEM_SYMBOL = 'EOS'
+const SYSTEM_SYMBOL = 'TLOS'
 
 const api = new EosEvmApi({
   // Ensure the API has console printing enabled
-  endpoint: 'https://jungle2.cryptolions.io',
+  endpoint: 'https://testnet.telos.eosrio.io/',
 
   // Must match the chain ID the contract is compiled with (1 by default)
   chainId: 1,
@@ -42,7 +42,7 @@ api.loadContractFromAbi({
 
 async function main () {
   // Deploy EVM contract to EOSIO (deploys to eosContract provided in new EosEvmApi)
-  await api.eos.setupEvmContract()
+  await api.eos.setupEvmContract(`${__dirname}/contracts/telos`)
 
   // For development (if TESTING is enabled in contract), clears all data in contract
   await api.eos.clearAll()
@@ -78,8 +78,8 @@ async function main () {
   await api.eth.transfer(receiver, 1000, { sender: sender.address })
 
   // Query ERC20 FIRE balance using "view" function calls
-  console.log(`${sender.address} Balance:`, +(await api.eth.balanceOf(sender.address)).toString(10), 'FIRE') // 999,000
-  console.log(`${receiver} Balance:`,       +(await api.eth.balanceOf(receiver)).toString(10), 'FIRE')       //   1,000
+  console.log(`${sender.address} Balance after transfer (sender):`, +(await api.eth.balanceOf(sender.address)).toString(10), 'FIRE') // 999,000
+  console.log(`${receiver} Balance after transfer (receiver):`,       +(await api.eth.balanceOf(receiver)).toString(10), 'FIRE')       //   1,000
 
   // Set allowance, and modify it
   await api.eth.approve(receiver, 100, { sender: sender.address })
@@ -99,7 +99,7 @@ async function main () {
 
 
   // Other available functions, check docs
-  console.log(await getStorageAt(eth.createdAddress, 3))
+  console.log(await api.eos.getStorageAt(eth.createdAddress, 3))
 
   // await createEthTx({ sender, data, gasLimit, value, to, rawSign = false })
   // async getNonce(address)
