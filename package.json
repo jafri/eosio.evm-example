@@ -10,6 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "@jafri/eosjs2": "^21.0.0-rc.16",
-    "eos-evm-js": "^0.2.341"
+    "eos-evm-js": "^0.2.342"
   }
 }
